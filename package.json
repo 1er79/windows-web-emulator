@@ -1,0 +1,14 @@
+{
+  "name": "wine-web",
+  "version": "0.2.1",
+  "private": true,
+  "description": "Desktop Wine Web com integração experimental ao Boxedwine64",
+  "scripts": {
+    "start": "node tools/dev-server.mjs",
+    "sync-engine": "node tools/sync-boxedwine64.mjs",
+    "check": "node tools/check-project.mjs"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

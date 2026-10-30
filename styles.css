@@ -1,0 +1,135 @@
+* { box-sizing: border-box; }
+:root { font-family: Tahoma, Verdana, sans-serif; color: #111; }
+body { margin: 0; overflow: hidden; background: #008080; }
+button { font: inherit; cursor: pointer; }
+#desktop {
+  position: relative; width: 100vw; height: 100vh; min-height: 420px;
+  background: #008080; overflow: hidden;
+}
+.desktop-icons { position: absolute; top: 14px; left: 12px; display: grid; gap: 14px; }
+.desktop-icon {
+  width: 88px; min-height: 76px; padding: 5px 3px; border: 1px solid transparent;
+  background: transparent; color: white; text-shadow: 1px 1px #333;
+  display: flex; flex-direction: column; align-items: center; gap: 5px;
+  font-size: 12px;
+}
+.desktop-icon:hover, .desktop-icon:focus { background: #ffffff22; border: 1px dotted white; outline: none; }
+.desktop-icon .icon { font-size: 29px; text-shadow: none; }
+.taskbar {
+  position: absolute; z-index: 10000; bottom: 0; left: 0; right: 0; height: 42px;
+  display: flex; align-items: center; gap: 5px; padding: 4px;
+  background: #c0c0c0; border-top: 2px solid white; box-shadow: 0 -1px #777;
+}
+.start-button, .task-button {
+  height: 32px; background: #c0c0c0; border: 2px outset white; padding: 3px 9px;
+  font-weight: bold; white-space: nowrap;
+}
+.start-button:active, .task-button:active { border-style: inset; }
+.task-buttons { display: flex; gap: 4px; flex: 1; overflow: auto; }
+.task-button { max-width: 180px; overflow: hidden; text-overflow: ellipsis; font-size: 12px; }
+.task-button.active { border-style: inset; background: #aaa; }
+.tray { height: 31px; border: 1px inset white; padding: 4px 8px; display: flex; gap: 12px; align-items: center; font-size: 11px; white-space: nowrap; }
+.start-menu {
+  position: absolute; z-index: 10001; bottom: 42px; left: 4px; width: 230px;
+  padding: 5px; background: #c0c0c0; border: 2px outset white; box-shadow: 2px 2px #333;
+}
+.start-menu button { display: block; width: 100%; text-align: left; padding: 9px 7px; border: 0; background: transparent; }
+.start-menu button:hover { background: #000080; color: white; }
+.start-brand { background: #000080; color: white; padding: 12px 8px; font-weight: bold; letter-spacing: 2px; }
+.start-brand small { float: right; letter-spacing: 0; }
+.hidden { display: none !important; }
+.window {
+  position: absolute; width: min(560px, calc(100vw - 30px)); height: min(390px, calc(100vh - 90px));
+  min-width: 270px; min-height: 180px; background: #c0c0c0; border: 2px outset white;
+  box-shadow: 2px 2px 4px #3338; display: flex; flex-direction: column;
+}
+.window.maximized { left: 4px !important; top: 4px !important; width: calc(100vw - 8px) !important; height: calc(100vh - 50px) !important; }
+.titlebar {
+  height: 27px; flex: 0 0 27px; margin: 2px 2px 0; padding: 3px 4px 3px 8px;
+  color: white; background: linear-gradient(90deg, #000080, #1084d0);
+  display: flex; align-items: center; justify-content: space-between; font-weight: bold; font-size: 12px;
+  cursor: move; user-select: none;
+}
+.window.inactive .titlebar { background: linear-gradient(90deg, #666, #999); }
+.window-controls { display: flex; gap: 3px; }
+.window-controls button { width: 19px; height: 19px; padding: 0; line-height: 15px; border: 2px outset white; background: #c0c0c0; color: black; }
+.window-content { padding: 12px; overflow: auto; flex: 1; font-size: 13px; }
+.window-status { height: 22px; padding: 3px 7px; border-top: 1px solid #888; font-size: 11px; color: #333; }
+.panel { border: 1px inset white; background: #eee; padding: 10px; margin: 8px 0; }
+.toolbar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.win-button { border: 2px outset white; background: #c0c0c0; padding: 5px 10px; }
+.win-button:active { border-style: inset; }
+.file-list { display: grid; gap: 5px; }
+.file-row { display: flex; align-items: center; gap: 9px; padding: 6px; border: 1px solid transparent; overflow-wrap: anywhere; }
+.file-row:hover { background: #dce8ff; border-color: #789; }
+.muted { color: #555; }
+.notice { border: 1px solid #9b8b50; background: #fff8d8; padding: 9px; line-height: 1.45; }
+.console {
+  min-height: 190px; background: #050505; color: #d5f5d5; padding: 10px;
+  font: 13px/1.5 Consolas, monospace; white-space: pre-wrap; overflow: auto;
+}
+.console input { width: 70%; background: transparent; border: 0; outline: 0; color: inherit; font: inherit; }
+.about-logo { font-size: 42px; text-align: center; margin: 8px; }
+@media (max-width: 600px) {
+  .tray #runtime-status { display: none; }
+  .window { width: calc(100vw - 18px); left: 9px !important; }
+  .desktop-icons { grid-template-columns: repeat(2, 82px); }
+}
+
+/* Wine Web 0.2 — janela do runtime Boxedwine64 */
+.window.runtime-window {
+  left: 12px !important;
+  top: 8px !important;
+  width: min(1120px, calc(100vw - 24px));
+  height: min(900px, calc(100vh - 58px));
+  min-width: 300px;
+  min-height: 260px;
+}
+.runtime-window .window-content { padding: 8px; overflow: auto; background: #bdbdbd; }
+.runtime-panel { display: flex; flex-direction: column; gap: 7px; min-height: 100%; }
+.runtime-topline { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+.runtime-progress-label { color: #333; font-size: 11px; }
+.runtime-message { padding: 7px 9px; border: 1px solid #9a9a9a; background: #f3f3f3; font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; }
+.runtime-message[data-kind="error"] { border-color: #a33; background: #fff0f0; color: #811; }
+.runtime-message[data-kind="success"] { border-color: #568451; background: #eef8eb; color: #245b21; }
+.runtime-loading { display: flex; align-items: center; gap: 7px; min-height: 20px; font-size: 11px; color: #444; }
+.runtime-loading progress { flex: 1; height: 12px; min-width: 90px; }
+.runtime-spinner { width: 12px; height: 12px; display: inline-block; border: 2px solid #777; border-top-color: #000080; border-radius: 50%; animation: runtime-spin .8s linear infinite; }
+@keyframes runtime-spin { to { transform: rotate(360deg); } }
+.runtime-section-label { font-size: 11px; font-weight: bold; color: #333; margin-bottom: 4px; }
+.runtime-app-buttons { display: flex; flex-wrap: wrap; gap: 5px; }
+.appbtn { border: 2px outset #fff; background: #d4d0c8; padding: 5px 8px; font: 12px Tahoma, sans-serif; color: #111; }
+.appbtn:hover { background: #e7e3dc; }
+.appbtn[aria-pressed="true"] { border-style: inset; background: #b8c8e8; }
+.runtime-myapps { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 11px; }
+.runtime-myapps #myApps { display: flex; flex-wrap: wrap; gap: 5px; }
+.runtime-toolbar, .runtime-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+.runtime-toolbar .win-button, .runtime-controls .win-button { font-size: 11px; padding: 4px 7px; }
+.runtime-args-row { display: flex; align-items: center; gap: 7px; font-size: 11px; }
+.runtime-args-row input { flex: 1; min-width: 100px; max-width: 360px; padding: 4px; border: 1px inset #fff; }
+.runtime-exe-chooser { padding: 6px; background: #fff; border: 1px solid #888; font-size: 11px; }
+.runtime-exe-chooser button { display: block; margin: 4px 0; max-width: 100%; overflow-wrap: anywhere; }
+.runtime-viewport { width: 100%; border: 2px inset #eee; background: #000; }
+.runtime-dropzone { display: flex; align-items: center; justify-content: center; width: 100%; background: #000; overflow: hidden; }
+.runtime-dropzone:fullscreen { width: 100vw; height: 100vh; }
+.runtime-dropzone:fullscreen canvas { width: 100vw !important; height: 100vh !important; object-fit: contain; }
+.runtime-dropzone .emscripten_border { width: 100%; display: flex; align-items: center; justify-content: center; }
+.runtime-dropzone canvas { display: block; width: min(100%, 800px); height: auto; aspect-ratio: 4 / 3; background: #000; outline: none; }
+#gl64canvas { display: none !important; }
+.runtime-console { border: 1px solid #888; background: #dedede; font-size: 11px; }
+.runtime-console summary { cursor: pointer; padding: 5px 7px; font-weight: bold; }
+.runtime-console textarea { display: block; width: 100%; min-height: 95px; resize: vertical; padding: 6px; background: #111; color: #d8e8d8; border: 1px inset #888; font: 11px/1.4 Consolas, monospace; }
+.runtime-disclaimer { color: #51461d; background: #fff8d7; border: 1px solid #b7a45f; padding: 7px 9px; font-size: 11px; line-height: 1.4; }
+.file-info { flex: 1; min-width: 120px; }
+.file-row .win-button { white-space: nowrap; }
+.diagnostic-list { margin: 8px 0; border: 1px solid #888; background: #f1f1f1; }
+.diagnostic-row { display: flex; justify-content: space-between; gap: 10px; padding: 7px 9px; border-bottom: 1px solid #ccc; }
+.diagnostic-row:last-child { border-bottom: 0; }
+.diagnostic-ok { color: #176a1d; }
+.diagnostic-no { color: #a12626; }
+@media (max-width: 720px) {
+  .window.runtime-window { left: 4px !important; top: 4px !important; width: calc(100vw - 8px); height: calc(100vh - 50px); }
+  .runtime-dropzone canvas { width: 100%; }
+  .tray #runtime-status { display: none; }
+  .runtime-args-row { flex-wrap: wrap; }
+}

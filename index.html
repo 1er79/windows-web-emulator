@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#008080">
+  <meta name="description" content="Wine Web: desktop de compatibilidade Windows no navegador, com runtime experimental Boxedwine64.">
+  <title>Wine Web 0.2.1</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="desktop" aria-label="Área de trabalho Wine Web">
+    <div class="desktop-icons">
+      <button class="desktop-icon" data-open="computer"><span class="icon">🖥️</span><span>Meu computador</span></button>
+      <button class="desktop-icon" data-open="files"><span class="icon">📁</span><span>Arquivos</span></button>
+      <button class="desktop-icon" data-open="runtime"><span class="icon">🪟</span><span>Executar Windows</span></button>
+      <button class="desktop-icon" data-open="diagnostics"><span class="icon">🩺</span><span>Diagnóstico</span></button>
+      <button class="desktop-icon" data-open="console"><span class="icon">▣</span><span>Console</span></button>
+      <button class="desktop-icon" data-open="about"><span class="icon">❔</span><span>Sobre</span></button>
+    </div>
+
+    <section id="window-area" aria-live="polite"></section>
+
+    <nav id="start-menu" class="start-menu hidden" aria-label="Menu Iniciar">
+      <div class="start-brand">WINE WEB <small>0.2.1</small></div>
+      <button data-open="runtime">🪟 Executar Windows</button>
+      <button data-open="files">📁 Explorador de arquivos</button>
+      <button data-open="computer">🖥️ Meu computador</button>
+      <button data-open="diagnostics">🩺 Diagnóstico do navegador</button>
+      <button data-open="console">▣ Console demonstrativo</button>
+      <button data-open="about">❔ Sobre o projeto</button>
+      <button id="start-load">＋ Adicionar arquivos...</button>
+    </nav>
+
+    <footer class="taskbar">
+      <button id="start-button" class="start-button" aria-expanded="false">🪟 Iniciar</button>
+      <div id="task-buttons" class="task-buttons"></div>
+      <div class="tray"><span id="runtime-status">Runtime: ainda não iniciado</span><span id="clock"></span></div>
+    </footer>
+
+    <input id="file-picker" type="file" multiple hidden>
+  </main>
+  <script src="src/storage.js"></script>
+  <script src="src/window-manager.js"></script>
+  <script src="src/runtime.js"></script>
+  <script src="src/apps.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
